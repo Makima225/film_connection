@@ -10,10 +10,10 @@ class MainPage extends ConsumerWidget {
   Widget _buildUI() {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Main Page'),
+        title: Text('Cinoch'),
       ),
       body: Center(
-        child: Text('Contenu de la page principale'),
+        child: Text('Bienvenu à vous !'),
       ),
     );
   }

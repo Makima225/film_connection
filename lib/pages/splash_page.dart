@@ -1,5 +1,15 @@
+import 'dart:convert';
+
+//Package
+import 'package:film_connection/models/app_config.dart';
+import 'package:film_connection/services/http_service.dart';
+import 'package:film_connection/services/movie_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
+import 'package:get_it/get_it.dart';
+
+// model
 
 class SplashPage extends StatefulWidget {
   final VoidCallback onInitializationComplete;
@@ -16,11 +26,27 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   Future<void> _initialize() async {
     // Effectuez vos initialisations asynchrones ici
-    await Future.delayed(
-        Duration(seconds: 5)); // Exemple de délai de 2 secondes
+    await Future.delayed(Duration(seconds: 5)).then(
+        (_) => _setup(context).then((_) => widget.onInitializationComplete()));
+
+    // Exemple de délai de 2 secondes
 
     // Appeler la fonction de rappel une fois les initialisations terminées
-    widget.onInitializationComplete();
+  }
+
+  Future<void> _setup(BuildContext _context) async {
+    final getIt = GetIt.instance;
+
+    final configFile = await rootBundle.loadString('assets/config/main.json');
+    final configData = jsonDecode(configFile);
+
+    getIt.registerSingleton<AppConfig>(AppConfig(
+        API_KEY: configData['API_KEY'],
+        BASE_API_URL: configData['BASE_API_URL'],
+        BASE_IMAGE_API_URL: configData['BASE_IMAGE_API_URL']));
+
+    getIt.registerSingleton<HTTPService>(HTTPService(getIt.get<AppConfig>()));
+    getIt.registerSingleton<MovieService>(MovieService());
   }
 
   @override

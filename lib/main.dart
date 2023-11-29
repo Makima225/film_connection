@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Cinoch",
       initialRoute: 'home',
+      debugShowCheckedModeBanner: false,
       routes: {
         'home': (BuildContext _context) => MainPage(),
       },
