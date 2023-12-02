@@ -29,9 +29,7 @@ class HTTPService {
       };
 
       // If additional query parameters are provided, add them to the query
-      if (queryParams != null) {
-        _query.addAll(queryParams);
-      }
+      _query.addAll(queryParams);
 
       // Perform the GET request using Dio
       return await dio.get(_url, queryParameters: _query);
